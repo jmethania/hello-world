@@ -1,0 +1,147 @@
+Core Java commands.
+
+#-version    //Use to check Java version
+java -version
+
+--------------------------------------------------------------------------------------------------------
+
+# javac      //Used to compile Java class
+e.g javac HelloWorld.java --> HelloWorld.class
+--------------------------------------------------------------------------------------------------------
+
+# java 
+> Used to run/execute the Java Class 
+e.g java HelloWorld
+--------------------------------------------------------------------------------------------------------
+
+# -d option
+> by default when you compile a .java file then .class file is created in the similar folder.
+To generate .class file into seperate folder use -d option.
+
+e.g I have a Howdy.java file in my C:\stuff directory. 
+Within the C:\stuff directory is another directory, C:\stuff\bin. 
+I'll compile the Howdy javaSW file to a class file which will be placed in the bin directory via
+
+javac -d bin Howdy.java
+----------------------------------------------------------------------------------------------------------
+
+# -cp
+> -cp option is used to set/extend the visibility of compiler.
+
+e.g: 
+1. At the command prompt in the C:\stuff directory, I can type the following to compile the Howdy.java file. 
+If I didn't include commons-lang in the classpath, I'd get a compilation error since,
+the java compiler wouldn't know what StringUtils is, since it wouldn't know where to find it.
+
+Compile: javac -cp /stuff/lib/commons-lang-2.3.jar;. Howdy.java
+
+This generates the Howdy.class file. 
+In order to execute this class, we need to supply the classpath referencing commons-lang-2.3.jar to 
+the java interpreter so that it knows what to do when the StringUtils.replace() method is called.
+
+Execute: java -cp /stuff/lib/commons-lang-2.3.jar;. Howdy
+
+2. I'll set the classpath variable via the following:
+
+set CLASSPATH=/stuff/lib/commons-lang-2.3.jar;. 
+Compile: javac Howdy.java
+Execute: java Howdy
+-------------------------------------------------------------------------------------------------------------------
+
+#-jar    //Run a standalone jar file
+
+java -jar MyApp.jar
+
+or passing arguments to a file
+
+java -jar MyApp.jar "code java" 2013 
+
+
+#Setting system properties
+We can use the -Dproperty=value option for setting a system property
+
+e.g 1) java -Ddownload.dir=D:\Downloads MyProgram
+    2) java -Dupload.dir="D:\My Uploads" MyProgram                        	// if value contains spaces, use double quotes.
+	3) java -Dupload.dir=D:\Uploads -Ddownload.dir=D:\Downloads MyProgram 	//specific multiple proerties.
+	4) java -Djava.io.tmpdir=E:\Temp MyProgram              				//Override predefined property.
+-------------------------------------------------------------------------------------------------------------------
+	
+#Specifying memory constraints
+When launching a java program, we can specify initial size and maximum size of the heap memory to be used.
+
+-Xms<size> 			//specifies initial heap size
+-Xmx<size> 			//specifies maximum heap size.
+
+The size is measured in bytes. It must be multiple of 1024 and is greater than 1MB for initial size and 2MB for maximum size. 
+Append k or K to indicate kilobytes; m or M to indicate megabytes. 
+
+For example, the following command launches a program with initial heap size 32MB and maximum heap size 1024MB.
+> java -Xms32M -Xmx1024M MyProgram
+
+
+-------------------------------------------------------------------------------------------------------
+
+#-verbose   //used to tell JVM which kind of information to see. JVM supports three verbose options out of the box.
+
+-verbose:class    //use to display the information about classes being loaded by JVM.
+
+ex: package com.example;
+
+public class Test {
+		public static void main(String args[]) {
+
+}
+}
+Output: 
+[Opened C:\Program Files\Java\jdk1.7.0_04\jre\lib\rt.jar]
+[Loaded java.lang.Object from C:\Program Files\Java\jdk1.7.0_04\jre\lib\rt.jar]
+[Loaded java.io.Serializable from C:\Program Files\Java\jdk1.7.0_04\jre\lib\rt.jar]
+[Loaded java.lang.Comparable from C:\Program Files\Java\jdk1.7.0_04\jre\lib\rt.jar]
+[Loaded java.lang.CharSequence from C:\Program Files\Java\jdk1.7.0_04\jre\lib\rt.jar]
+..............................................................................
+..............................................................................
+..............................................................................
+
+
+-verbose:gc       //use to check garbage collection event information.
+
+ex:
+package com.example;
+
+public class Test {
+
+public static void main(String args[]) throws InterruptedException {
+Test t1 = new Test();
+t1=null;
+System.gc();
+}
+}
+
+Output: 
+[GC 318K->304K(61056K), 0.0081277 secs]
+[Full GC 304K->225K(61056K), 0.0054004 secs]
+
+
+
+-verbose:jni      //use for printing native mathods as when they are registered in application.
+
+package com.example;
+
+public class Test {
+		public static void main(String args[]) throws InterruptedException {}
+}
+
+[Dynamic-linking native method java.lang.Object.registerNatives ... JNI]
+[Registering JNI native method java.lang.Object.hashCode]
+[Registering JNI native method java.lang.Object.wait]
+[Registering JNI native method java.lang.Object.notify]
+[Registering JNI native method java.lang.Object.notifyAll]
+[Registering JNI native method java.lang.Object.clone]
+[Dynamic-linking native method java.lang.System.registerNatives ... JNI]
+...............................................................
+...............................................................
+
+
+
+
+
